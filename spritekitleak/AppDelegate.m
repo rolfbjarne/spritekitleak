@@ -24,33 +24,22 @@ void buttonClick ()
     if (showing) {
         [nvc popViewControllerAnimated:YES];
     } else {
-//    var vc2 = new UIViewController ();
-    vc2 = [[UIViewController alloc] init];
-//    var skView = new SKView (window.Bounds);
-    SKView *skView = [[SKView alloc] initWithFrame:window.bounds];
-//    vc2.View.AddSubview (skView);
-    [vc2.view addSubview:skView];
+        vc2 = [[UIViewController alloc] init];
+        SKView *skView = [[SKView alloc] initWithFrame:window.bounds];
+        [vc2.view addSubview:skView];
     
-    // Create and configure the scene.
-//    var scene = new SKScene (skView.Bounds.Size);
-    SKScene *scene = [[SKScene alloc] initWithSize:skView.bounds.size];
-//    scene.ScaleMode = SKSceneScaleMode.AspectFill;
-    scene.scaleMode  = SKSceneScaleModeAspectFill;
+        // Create and configure the scene.
+        SKScene *scene = [[SKScene alloc] initWithSize:skView.bounds.size];
+        scene.scaleMode  = SKSceneScaleModeAspectFill;
     
-    // Present the scene.
-//    skView.PresentScene(scene);
-    [skView presentScene:scene];
+        [skView presentScene:scene];
     
-    //nvc.PushViewController (vc2, true);
-    [nvc pushViewController:vc2 animated:YES];
-//    GC.Collect ();
+        [nvc pushViewController:vc2 animated:YES];
     }
     
     showing = !showing;
     
-    int64_t delayInSeconds = 2; // Your Game Interval as mentioned above by you
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-    
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         buttonClick ();
     });
@@ -59,20 +48,13 @@ void buttonClick ()
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     window.backgroundColor = [UIColor whiteColor];
     
-    //vc = new UIViewController ();
     vc = [[UIViewController alloc] init];
-//    button = new UIButton (window.Bounds);
     button = [[UIButton alloc] initWithFrame: window.bounds];
-//    button.BackgroundColor = UIColor.Blue;
     [button setBackgroundColor: [UIColor whiteColor]];
-//    button.SetTitle ("Go to SKScene", UIControlState.Normal);
     [button setTitle:@"Go to SKScene" forState:UIControlStateNormal];
     
-    
-    //vc.View.AddSubview (button);
     [vc.view addSubview:button];
     
     nvc = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -81,11 +63,8 @@ void buttonClick ()
     
     [window makeKeyAndVisible];
     
-    int64_t delayInSeconds = 2; // Your Game Interval as mentioned above by you
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        buttonClick ();
-    });
+    buttonClick ();
+    
     return YES;
 }
 
